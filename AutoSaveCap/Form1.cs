@@ -98,15 +98,33 @@ namespace AutoSaveCap
             if (radioButton2.Checked) fmt = ImageFormat.Jpeg;
             if (radioButton3.Checked) fmt = ImageFormat.Png;
             string fname = MakeFileName(fmt);
-            bmp.Save(fname, fmt);
-
-            textBox1.Text = "[img " + Path.GetFileName(fname) + "]";
+            if (fname != "")
+            {
+                bmp.Save(fname, fmt);
+                textBox1.Text = "[img " + Path.GetFileName(fname) + "]";
+            }
+            else
+            {
+                textBox1.Text = "[error] Error could not access the output directory";
+            }
 
         }
 
         string MakeFileName(ImageFormat fmt)
         {
             string path = textBox2.Text+"\\";
+            if (!System.IO.Directory.Exists(path))
+            {
+                try
+                {
+                    System.IO.Directory.CreateDirectory(path);
+                }
+                catch (Exception)
+                {
+                    return "";
+                }
+            }
+
 #if false
             DateTime dt = DateTime.Now;
             string dname = string.Format("{0:0000}{1:00}{2:00}", dt.Year, dt.Month, dt.Day);
