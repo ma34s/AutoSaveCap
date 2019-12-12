@@ -120,12 +120,12 @@ namespace AutoSaveCap
 
         string MakeFileName(ImageFormat fmt)
         {
-            string path = textBox2.Text+"\\";
-            if (!System.IO.Directory.Exists(path))
+            string dir = textBox2.Text;
+            if (!System.IO.Directory.Exists(dir))
             {
                 try
                 {
-                    System.IO.Directory.CreateDirectory(path);
+                    System.IO.Directory.CreateDirectory(dir);
                 }
                 catch (Exception)
                 {
@@ -139,17 +139,18 @@ namespace AutoSaveCap
 #else
             string dname = "img";
 #endif
-            var files = System.IO.Directory.GetFiles(path);
+            var files = System.IO.Directory.GetFiles(dir);
             var file  = files.Where(f => f.IndexOf(dname + "_") > 0).Max();
             if ( file == null ) {
-                path += dname + "_01." + fmt.ToString().ToLower();
+                dname += "_01";
             } else {
                 var mat = new Regex( @"_(\d+)\.").Match(file);
                 int num = int.Parse( mat.Groups[1].Value );
                 num++;
-                path += dname + "_" + num.ToString("00") + "." + fmt.ToString().ToLower();
+                dname += "_" + num.ToString("00");
             }
-            return path;
+            dname += "." + fmt.ToString().ToLower();    //add extention
+            return System.IO.Path.Combine(dir, dname); 
         }
 
         /// <summary>
