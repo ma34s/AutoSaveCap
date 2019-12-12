@@ -71,8 +71,12 @@ namespace AutoSaveCap
         string MakeFileName(ImageFormat fmt)
         {
             string path = textBox2.Text+"\\";
+#if false
             DateTime dt = DateTime.Now;
             string dname = string.Format("{0:0000}{1:00}{2:00}", dt.Year, dt.Month, dt.Day);
+#else
+            string dname = "img";
+#endif
             var files = System.IO.Directory.GetFiles(path);
             var file  = files.Where(f => f.IndexOf(dname + "_") > 0).Max();
             if ( file == null ) {
