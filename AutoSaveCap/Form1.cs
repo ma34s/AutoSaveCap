@@ -15,6 +15,7 @@ namespace AutoSaveCap
 {
     public partial class Form1 : Form
     {
+        private Bitmap savedBmp;
         public Form1()
         {
             InitializeComponent();
@@ -28,6 +29,8 @@ namespace AutoSaveCap
         private void Form1_Load(object sender, EventArgs e)
         {
             radioButton2.Checked = true;
+            buttonSave.Enabled = false;
+
             textBox2.Text = Application.StartupPath;
         }
 
@@ -43,7 +46,29 @@ namespace AutoSaveCap
             var bmp = clip.GetData(typeof(Bitmap)) as Bitmap;
             if (bmp == null) return;
             // ピクチャへ表示
-            pictureBox1.Image = bmp;
+            
+
+            bool isImgUpdaed = true;
+            if (pictureBox1.Image == null)
+            {//初回取り込み
+                pictureBox1.Image = bmp;
+            }
+            else
+            {//2回目以降
+                if (BitmapUtil.Compare(bmp, (Bitmap)pictureBox1.Image) == false)
+                {//更新あり
+                    pictureBox1.Image = bmp;
+
+                    if (savedBmp != null)
+                    {
+                        if (BitmapUtil.Compare(bmp, savedBmp) == true)
+                        {
+                            isImgUpdaed = false;
+                        }
+                    }
+                }
+            }
+            buttonSave.Enabled = isImgUpdaed;
         }
 
         /// <summary>
@@ -56,6 +81,17 @@ namespace AutoSaveCap
             Bitmap bmp = (Bitmap)pictureBox1.Image;
             if (bmp == null)
                 return;
+
+            buttonSave.Enabled = false;
+            if (savedBmp != null)
+            {
+                if(BitmapUtil.Compare(bmp, savedBmp)==true)
+                {
+                    return;
+                }
+            }
+            //
+            savedBmp = new Bitmap(bmp);
 
             ImageFormat fmt = ImageFormat.Bmp;
             if (radioButton1.Checked) fmt = ImageFormat.Bmp;
