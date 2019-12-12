@@ -76,12 +76,12 @@ namespace AutoSaveCap
             var files = System.IO.Directory.GetFiles(path);
             var file  = files.Where(f => f.IndexOf(dname + "_") > 0).Max();
             if ( file == null ) {
-                path += dname + "_01." + fmt.ToString();
+                path += dname + "_01." + fmt.ToString().ToLower();
             } else {
                 var mat = new Regex( @"_(\d+)\.").Match(file);
                 int num = int.Parse( mat.Groups[1].Value );
                 num++;
-                path += dname + "_" + num.ToString("00") + "." + fmt.ToString();
+                path += dname + "_" + num.ToString("00") + "." + fmt.ToString().ToLower();
             }
             return path;
         }
