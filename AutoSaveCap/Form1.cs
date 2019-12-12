@@ -139,16 +139,19 @@ namespace AutoSaveCap
 #else
             string dname = "img";
 #endif
-            var files = System.IO.Directory.GetFiles(dir);
-            var file  = files.Where(f => f.IndexOf(dname + "_") > 0).Max();
-            if ( file == null ) {
-                dname += "_01";
-            } else {
-                var mat = new Regex( @"_(\d+)\.").Match(file);
-                int num = int.Parse( mat.Groups[1].Value );
-                num++;
-                dname += "_" + num.ToString("00");
+            //var files = System.IO.Directory.GetFiles(dir);
+            int max = 0;
+            foreach (var file in System.IO.Directory.GetFiles(dir))
+            {
+                var mat = new Regex(@"_(\d+)\.").Match(file);
+                int num = int.Parse(mat.Groups[1].Value);
+                if(num>max)
+                {
+                    max = num;
+                }
             }
+            max++;
+            dname += "_" + max.ToString("000");
             dname += "." + fmt.ToString().ToLower();    //add extention
             return System.IO.Path.Combine(dir, dname); 
         }
