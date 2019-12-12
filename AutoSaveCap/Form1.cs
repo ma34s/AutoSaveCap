@@ -28,6 +28,7 @@ namespace AutoSaveCap
         private void Form1_Load(object sender, EventArgs e)
         {
             radioButton2.Checked = true;
+            textBox2.Text = Application.StartupPath;
         }
 
         /// <summary>
@@ -44,9 +45,6 @@ namespace AutoSaveCap
             // ピクチャへ表示
             pictureBox1.Image = bmp;
         }
-
-
-        string FOLDER = @"d:\work\blog\image\";
 
         /// <summary>
         /// 特定フォルダに保存
@@ -72,10 +70,10 @@ namespace AutoSaveCap
 
         string MakeFileName(ImageFormat fmt)
         {
-            string path = FOLDER ;
+            string path = textBox2.Text+"\\";
             DateTime dt = DateTime.Now;
             string dname = string.Format("{0:0000}{1:00}{2:00}", dt.Year, dt.Month, dt.Day);
-            var files = System.IO.Directory.GetFiles(FOLDER);
+            var files = System.IO.Directory.GetFiles(path);
             var file  = files.Where(f => f.IndexOf(dname + "_") > 0).Max();
             if ( file == null ) {
                 path += dname + "_01." + fmt.ToString();
