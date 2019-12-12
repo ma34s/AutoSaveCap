@@ -39,6 +39,8 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.buttonWatch = new System.Windows.Forms.Button();
+            this.labelWatchStatus = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -148,6 +150,8 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.labelWatchStatus);
+            this.splitContainer1.Panel1.Controls.Add(this.buttonWatch);
             this.splitContainer1.Panel1.Controls.Add(this.buttonSave);
             this.splitContainer1.Panel1.Controls.Add(this.textBox2);
             this.splitContainer1.Panel1.Controls.Add(this.buttonClip);
@@ -161,6 +165,25 @@
             this.splitContainer1.SplitterDistance = 140;
             this.splitContainer1.TabIndex = 9;
             // 
+            // buttonWatch
+            // 
+            this.buttonWatch.Location = new System.Drawing.Point(222, 45);
+            this.buttonWatch.Name = "buttonWatch";
+            this.buttonWatch.Size = new System.Drawing.Size(101, 23);
+            this.buttonWatch.TabIndex = 9;
+            this.buttonWatch.Text = "クリップボード監視";
+            this.buttonWatch.UseVisualStyleBackColor = true;
+            this.buttonWatch.Click += new System.EventHandler(this.ButtonWatch_Click);
+            // 
+            // labelWatchStatus
+            // 
+            this.labelWatchStatus.AutoSize = true;
+            this.labelWatchStatus.Location = new System.Drawing.Point(329, 51);
+            this.labelWatchStatus.Name = "labelWatchStatus";
+            this.labelWatchStatus.Size = new System.Drawing.Size(65, 12);
+            this.labelWatchStatus.TabIndex = 10;
+            this.labelWatchStatus.Text = "監視停止中";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -171,6 +194,7 @@
             this.KeyPreview = true;
             this.Name = "Form1";
             this.Text = "Auto Save Capture";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.groupBox1.ResumeLayout(false);
@@ -197,6 +221,8 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.Label labelWatchStatus;
+        private System.Windows.Forms.Button buttonWatch;
     }
 }
 

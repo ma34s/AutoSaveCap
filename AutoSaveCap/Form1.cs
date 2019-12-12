@@ -16,11 +16,12 @@ namespace AutoSaveCap
     public partial class Form1 : Form
     {
         private Bitmap savedBmp;
+        private ClipBoardWatcher cbw;
         public Form1()
         {
             InitializeComponent();
+            cbw = null;
         }
-
         /// <summary>
         /// ロード時に初期値を読み込む
         /// </summary>
@@ -33,7 +34,14 @@ namespace AutoSaveCap
 
             textBox2.Text = Application.StartupPath;
         }
-
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (cbw != null)
+            {
+                cbw.Dispose();
+                cbw = null;
+            }
+        }
         /// <summary>
         /// クリップボードから取り込み
         /// </summary>
@@ -164,5 +172,35 @@ namespace AutoSaveCap
             }
         }
 
+        private void ButtonWatch_Click(object sender, EventArgs e)
+        {
+            buttonWatch.Enabled = false;//2度押し防止
+            if (labelWatchStatus.Text=="監視中")
+            {
+                if (cbw != null)
+                {
+                    cbw.Dispose();
+                    cbw = null;
+                }
+
+                labelWatchStatus.Text = "監視停止中";
+
+            }
+            else
+            {
+                labelWatchStatus.Text = "監視中";
+                cbw = new ClipBoardWatcher();
+                cbw.DrawClipBoard += (sender2, e2) => {
+                    if(Clipboard.ContainsImage())
+                    {
+                        buttonClip_Click(sender, null);
+                        buttonSave_Click(sender, null);
+                    }
+                };
+            }
+            buttonWatch.Enabled = true;//2度押し防止
+        }
+
+ 
     }
 }
